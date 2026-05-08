@@ -1,0 +1,118 @@
+{
+  "_comment": "DEJ Search validation orgs. Used by scripts/validation/validate_load.py to confirm the BMF loader pulled correct data for orgs David knows intimately.",
+  "_size_buckets": {
+    "small": "< $5M revenue",
+    "mid": "$5M - $50M revenue",
+    "large": "> $50M revenue"
+  },
+  "_ntee_majors_used_here": {
+    "A": "Arts, Culture & Humanities",
+    "B": "Education",
+    "L": "Housing & Shelter",
+    "P": "Human Services",
+    "R": "Civil Rights, Social Action",
+    "S": "Community Improvement",
+    "U": "Science & Technology"
+  },
+  "orgs": [
+    {
+      "ein": "410706172",
+      "name": "Science Museum of Minnesota",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "A",
+      "size_bucket": "large",
+      "notes": "Major MN cultural institution; revenue typically > $50M"
+    },
+    {
+      "ein": "271216065",
+      "name": "Ujamaa Place",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "P",
+      "size_bucket": "small",
+      "notes": "Twin Cities Black men's transformation program"
+    },
+    {
+      "ein": "410706915",
+      "name": "Urban League Twin Cities",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "R",
+      "size_bucket": "mid",
+      "notes": "Civil rights / social action affiliate"
+    },
+    {
+      "ein": "411725396",
+      "name": "Bridging Incorporated",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "P",
+      "size_bucket": "mid",
+      "notes": "Furniture and household goods for families exiting homelessness"
+    },
+    {
+      "ein": "871177063",
+      "name": "Partnership In Property Commercial Land Trust",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "S",
+      "size_bucket": "small",
+      "notes": "EIN issued post-2020; may have limited filing history. Subsection might be (c)(2) — flag for follow-up if not found."
+    },
+    {
+      "ein": "200722799",
+      "name": "Minnesota Black Chamber of Commerce",
+      "expected_state": "MN",
+      "expected_subsection": 6,
+      "expected_ntee_major": "S",
+      "size_bucket": "small",
+      "notes": "501(c)(6) trade association — confirms our subsection 6 filter works"
+    },
+    {
+      "ein": "411260469",
+      "name": "CommonBond Communities",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "L",
+      "size_bucket": "large",
+      "notes": "Largest nonprofit affordable housing provider in upper Midwest"
+    },
+    {
+      "ein": "416170139",
+      "name": "Playwrights' Center",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "A",
+      "size_bucket": "small",
+      "notes": "National new-play development organization based in Minneapolis"
+    },
+    {
+      "ein": "411968798",
+      "name": "College Possible",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "B",
+      "size_bucket": "large",
+      "notes": "National headquarters in MN; college access for low-income students"
+    },
+    {
+      "ein": "030440761",
+      "name": "Genesys Works",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "B",
+      "size_bucket": "mid",
+      "notes": "8-digit EIN as supplied; padded to 9 digits with leading zero. National HQ; verify state during load."
+    },
+    {
+      "ein": "831629682",
+      "name": "Black Men Teach",
+      "expected_state": "MN",
+      "expected_subsection": 3,
+      "expected_ntee_major": "B",
+      "size_bucket": "small",
+      "notes": "Recent organization (EIN 83-prefix); educator pipeline focus"
+    }
+  ]
+}
