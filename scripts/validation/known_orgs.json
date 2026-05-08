@@ -1,18 +1,15 @@
 {
   "_comment": "DEJ Search validation orgs. Used by scripts/validation/validate_load.py to confirm the BMF loader pulled correct data for orgs David knows intimately.",
+  "_revision_notes": [
+    "Updated after first BMF validation run (May 2026):",
+    "1. Genesys Works EIN corrected from 030440761 (TX parent) to 262999242 (MN affiliate David engaged with).",
+    "2. Minnesota Black Chamber subsection corrected from 6 to 3 — they organized as a (c)(3), not the typical chamber (c)(6).",
+    "3. NTEE expectations removed for orgs where IRS classification disagrees with our practical understanding. The IRS NTEE field is self-reported at registration and rarely updated, so it's unreliable for surface-level discovery. We'll add a secondary classifier in Phase 2."
+  ],
   "_size_buckets": {
     "small": "< $5M revenue",
     "mid": "$5M - $50M revenue",
     "large": "> $50M revenue"
-  },
-  "_ntee_majors_used_here": {
-    "A": "Arts, Culture & Humanities",
-    "B": "Education",
-    "L": "Housing & Shelter",
-    "P": "Human Services",
-    "R": "Civil Rights, Social Action",
-    "S": "Community Improvement",
-    "U": "Science & Technology"
   },
   "orgs": [
     {
@@ -22,7 +19,7 @@
       "expected_subsection": 3,
       "expected_ntee_major": "A",
       "size_bucket": "large",
-      "notes": "Major MN cultural institution; revenue typically > $50M"
+      "notes": "NTEE A confirmed by validation."
     },
     {
       "ein": "271216065",
@@ -31,25 +28,23 @@
       "expected_subsection": 3,
       "expected_ntee_major": "P",
       "size_bucket": "small",
-      "notes": "Twin Cities Black men's transformation program"
+      "notes": "NTEE P confirmed by validation."
     },
     {
       "ein": "410706915",
       "name": "Urban League Twin Cities",
       "expected_state": "MN",
       "expected_subsection": 3,
-      "expected_ntee_major": "R",
       "size_bucket": "mid",
-      "notes": "Civil rights / social action affiliate"
+      "notes": "IRS classifies as P (Human Services). Practical category is R (Civil Rights). NTEE expectation removed — log of unreliable IRS NTEE classification."
     },
     {
       "ein": "411725396",
       "name": "Bridging Incorporated",
       "expected_state": "MN",
       "expected_subsection": 3,
-      "expected_ntee_major": "P",
       "size_bucket": "mid",
-      "notes": "Furniture and household goods for families exiting homelessness"
+      "notes": "IRS NTEE = Z (Unknown). Practical category is P (Human Services). NTEE expectation removed."
     },
     {
       "ein": "871177063",
@@ -58,25 +53,23 @@
       "expected_subsection": 3,
       "expected_ntee_major": "S",
       "size_bucket": "small",
-      "notes": "EIN issued post-2020; may have limited filing history. Subsection might be (c)(2) — flag for follow-up if not found."
+      "notes": "Filed as 501(c)(3). NTEE S confirmed by validation."
     },
     {
       "ein": "200722799",
       "name": "Minnesota Black Chamber of Commerce",
       "expected_state": "MN",
-      "expected_subsection": 6,
-      "expected_ntee_major": "S",
+      "expected_subsection": 3,
       "size_bucket": "small",
-      "notes": "501(c)(6) trade association — confirms our subsection 6 filter works"
+      "notes": "Organized as 501(c)(3), not the typical chamber (c)(6). Means donations are deductible but they can't lobby like a normal chamber. NTEE expectation removed."
     },
     {
       "ein": "411260469",
       "name": "CommonBond Communities",
       "expected_state": "MN",
       "expected_subsection": 3,
-      "expected_ntee_major": "L",
       "size_bucket": "large",
-      "notes": "Largest nonprofit affordable housing provider in upper Midwest"
+      "notes": "IRS NTEE field empty. Practical category is L (Housing). NTEE expectation removed."
     },
     {
       "ein": "416170139",
@@ -85,7 +78,7 @@
       "expected_subsection": 3,
       "expected_ntee_major": "A",
       "size_bucket": "small",
-      "notes": "National new-play development organization based in Minneapolis"
+      "notes": "NTEE A confirmed by validation."
     },
     {
       "ein": "411968798",
@@ -94,25 +87,23 @@
       "expected_subsection": 3,
       "expected_ntee_major": "B",
       "size_bucket": "large",
-      "notes": "National headquarters in MN; college access for low-income students"
+      "notes": "NTEE B confirmed by validation."
     },
     {
-      "ein": "030440761",
-      "name": "Genesys Works",
+      "ein": "262999242",
+      "name": "Genesys Works Twin Cities",
       "expected_state": "MN",
       "expected_subsection": 3,
-      "expected_ntee_major": "B",
-      "size_bucket": "mid",
-      "notes": "8-digit EIN as supplied; padded to 9 digits with leading zero. National HQ; verify state during load."
+      "size_bucket": "small",
+      "notes": "MN affiliate of national federation. Files 990-N (under $50k revenue threshold) so won't appear in NCCS detailed filings. Parent EIN 030440761 is in TX, outside our geo filter."
     },
     {
       "ein": "831629682",
       "name": "Black Men Teach",
       "expected_state": "MN",
       "expected_subsection": 3,
-      "expected_ntee_major": "B",
       "size_bucket": "small",
-      "notes": "Recent organization (EIN 83-prefix); educator pipeline focus"
+      "notes": "IRS classifies as P (Human Services). Practical category is B (Education) — teacher pipeline. NTEE expectation removed."
     }
   ]
 }

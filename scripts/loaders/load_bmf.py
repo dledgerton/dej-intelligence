@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import io
 import os
 import sys
 import time
@@ -162,14 +161,51 @@ def parse_status(status_code: str) -> str:
 
 
 def stream_csv(url: str, region: str) -> Iterator[dict[str, str]]:
-    """Stream a remote CSV row-by-row without loading it all into memory."""
+    """
+    Stream a remote CSV row-by-row without buffering the whole file.
+
+    httpx.stream() returns a Response whose body has NOT been read yet —
+    accessing `.content` directly raises ResponseNotRead. The correct
+    pattern is to iterate `iter_lines()` and feed those into csv.reader
+    line-by-line. This keeps memory bounded regardless of file size,
+    which matters more for NCCS (8GB) than for BMF (~50MB).
+    """
     print(f"  → fetching {region} from {url}")
-    with httpx.stream("GET", url, timeout=120.0, follow_redirects=True) as response:
+    with httpx.stream(
+        "GET",
+        url,
+        timeout=120.0,
+        follow_redirects=True,
+        headers={"User-Agent": "DEJ-Intelligence-Loader/1.0"},
+    ) as response:
         response.raise_for_status()
-        # IRS files are latin-1 encoded; the BMF has occasional non-UTF8 characters
-        buffer = io.StringIO(response.content.decode("latin-1"))
-        reader = csv.DictReader(buffer)
-        yield from reader
+
+        # iter_lines() yields decoded strings. IRS BMF is latin-1 encoded
+        # but httpx defaults to utf-8 — set the response encoding explicitly.
+        response.encoding = "latin-1"
+
+        line_iter = response.iter_lines()
+        try:
+            header_line = next(line_iter)
+        except StopIteration:
+            return  # empty response
+
+        headers = next(csv.reader([header_line]))
+
+        for line in line_iter:
+            if not line:
+                continue
+            try:
+                values = next(csv.reader([line]))
+            except (csv.Error, StopIteration):
+                continue
+            # csv.reader handles fields just fine even when row width is off;
+            # we pad/truncate to match the header so DictReader-equivalent works.
+            if len(values) < len(headers):
+                values = values + [""] * (len(headers) - len(values))
+            elif len(values) > len(headers):
+                values = values[: len(headers)]
+            yield dict(zip(headers, values))
 
 
 def transform(row: dict[str, str]) -> dict | None:
