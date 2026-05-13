@@ -1,37 +1,64 @@
-export default function Home() {
+"use client"
+
+import { useState } from "react"
+import { Nav } from "@/components/nav"
+import { FilterBar, FilterValues } from "@/components/filter-bar"
+import { OrgTable } from "@/components/org-table"
+
+export default function MarketScanPage() {
+  const [results, setResults] = useState<any[]>([])
+  const [total, setTotal] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleSearch = async (filters: FilterValues) => {
+    setLoading(true)
+    const params = new URLSearchParams({
+      states: filters.states.join(","),
+      rev_min: String(filters.rev_min),
+      rev_max: String(filters.rev_max),
+      limit: "100",
+    })
+    if (filters.ntee_major.length > 0) {
+      params.set("ntee_major", filters.ntee_major.join(","))
+    }
+
+    try {
+      const res = await fetch(`/api/query/market-scan?${params}`)
+      const data = await res.json()
+      setResults(data.results ?? [])
+      setTotal(data.total ?? 0)
+    } catch (err) {
+      console.error("Search failed:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-6 py-24">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">
-          DEJ Intelligence
-        </p>
-        <h1 className="mt-4 font-serif text-5xl leading-tight text-navy md:text-6xl">
-          The intelligence layer for nonprofit executive search.
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-          Built by a search consultant, for search consultants. Spot leadership
-          transitions before your competitors do, prep BD meetings in 60
-          seconds, and replace the half-used Candid subscription you keep
-          paying for.
-        </p>
-        <div className="mt-10 flex gap-4">
-          <a
-            href="/signup"
-            className="inline-flex items-center rounded-md bg-navy px-6 py-3 font-medium text-white transition hover:bg-navy/90"
-          >
-            Start 14-day trial
-          </a>
-          <a
-            href="/pricing"
-            className="inline-flex items-center rounded-md border border-navy/20 px-6 py-3 font-medium text-navy transition hover:bg-navy/5"
-          >
-            See pricing
-          </a>
+    <>
+      <Nav />
+      <main className="mx-auto max-w-7xl px-6 py-8">
+        <div className="mb-6">
+          <h1 className="font-serif text-3xl text-navy">Market Scan</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Search scored nonprofit organizations by geography, sector, and
+            revenue. Click any org for a full profile.
+          </p>
         </div>
-        <p className="mt-12 text-sm text-muted-foreground">
-          Phase 0 scaffolding. Real product coming soon.
-        </p>
-      </div>
-    </main>
-  );
+
+        <FilterBar onApply={handleSearch} loading={loading} />
+
+        {total !== null && (
+          <p className="mt-6 text-sm text-muted-foreground">
+            {total.toLocaleString()} organizations found
+            {results.length < total && ` · showing first ${results.length}`}
+          </p>
+        )}
+
+        <div className="mt-4">
+          <OrgTable rows={results} />
+        </div>
+      </main>
+    </>
+  )
 }

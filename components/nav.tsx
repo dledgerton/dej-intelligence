@@ -1,0 +1,42 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+
+const links = [
+  { href: "/", label: "Market Scan" },
+  { href: "/hot-list", label: "Hot List" },
+  { href: "/sector-pulse", label: "Sector Pulse" },
+]
+
+export function Nav() {
+  const pathname = usePathname()
+  return (
+    <header className="border-b border-border bg-white">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-8 px-6">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="text-sm font-bold uppercase tracking-[0.15em] text-gold">
+            DEJ Intelligence
+          </span>
+        </Link>
+        <nav className="flex gap-1">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm font-medium transition",
+                pathname === l.href
+                  ? "bg-navy text-white"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  )
+}
