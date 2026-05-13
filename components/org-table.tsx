@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { formatCurrency, formatEIN } from "@/lib/utils"
 import { ScoreBadge } from "./score-badge"
+import { SignalChips } from "./signal-chips"
 
 type OrgRow = {
   ein: string
@@ -18,6 +19,7 @@ type OrgRow = {
   ceo_tenure_years: number | null
   consecutive_deficit: number | null
   primary_signal?: string | null
+  factors?: string | null
 }
 
 export function OrgTable({
@@ -46,7 +48,7 @@ export function OrgTable({
             <th className="px-4 py-3 text-right">Revenue</th>
             <th className="px-4 py-3">Score</th>
             <th className="px-4 py-3">CEO</th>
-            {showSignal && <th className="px-4 py-3">Signal</th>}
+            <th className="px-4 py-3">Signals</th>
           </tr>
         </thead>
         <tbody>
@@ -71,7 +73,7 @@ export function OrgTable({
               </td>
               <td className="px-4 py-3">
                 <span className="rounded bg-muted px-1.5 py-0.5 text-xs font-medium">
-                  {row.ntee_code || "—"}
+                  {row.ntee_code || "--"}
                 </span>
               </td>
               <td className="px-4 py-3 text-right font-mono text-sm">
@@ -81,7 +83,7 @@ export function OrgTable({
                 {row.tier ? (
                   <ScoreBadge tier={row.tier} score={row.score} />
                 ) : (
-                  <span className="text-xs text-muted-foreground">—</span>
+                  <span className="text-xs text-muted-foreground">--</span>
                 )}
               </td>
               <td className="px-4 py-3">
@@ -95,14 +97,12 @@ export function OrgTable({
                     )}
                   </div>
                 ) : (
-                  <span className="text-xs text-muted-foreground">—</span>
+                  <span className="text-xs text-muted-foreground">--</span>
                 )}
               </td>
-              {showSignal && (
-                <td className="px-4 py-3 text-xs text-muted-foreground">
-                  {row.primary_signal || "—"}
-                </td>
-              )}
+              <td className="px-4 py-3 min-w-[200px]">
+                <SignalChips factors={row.factors} max={2} />
+              </td>
             </tr>
           ))}
         </tbody>

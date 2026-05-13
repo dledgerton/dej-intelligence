@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { Nav } from "@/components/nav"
 import { ScoreBadge } from "@/components/score-badge"
+import { SignalPanel } from "@/components/signal-chips"
 import { formatCurrency, formatEIN } from "@/lib/utils"
 
 type OrgData = {
@@ -36,7 +37,10 @@ export default function OrgProfilePage() {
       <>
         <Nav />
         <main className="mx-auto max-w-7xl px-6 py-12">
-          <p className="text-muted-foreground">Loading…</p>
+          <div className="flex items-center gap-3 text-muted-foreground">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-navy border-t-transparent" />
+            Loading...
+          </div>
         </main>
       </>
     )
@@ -62,15 +66,10 @@ export default function OrgProfilePage() {
     <>
       <Nav />
       <main className="mx-auto max-w-7xl px-6 py-8">
-        {/* Back link */}
-        <Link
-          href="/"
-          className="mb-4 inline-block text-sm text-muted-foreground hover:text-navy"
-        >
-          ← Back to search
+        <Link href="/" className="mb-4 inline-block text-sm text-muted-foreground hover:text-navy">
+          Back to search
         </Link>
 
-        {/* Header */}
         <div className="mb-8 rounded-lg border border-border bg-white p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
@@ -83,9 +82,7 @@ export default function OrgProfilePage() {
                   {org.ntee_code}
                 </span>
                 {org.ntee_category && (
-                  <span className="ml-2 text-muted-foreground">
-                    {org.ntee_category}
-                  </span>
+                  <span className="ml-2 text-muted-foreground">{org.ntee_category}</span>
                 )}
               </p>
             </div>
@@ -95,13 +92,9 @@ export default function OrgProfilePage() {
               )}
               {org.ceo_name && (
                 <p className="mt-2 text-sm">
-                  <span className="text-muted-foreground">CEO:</span>{" "}
-                  {org.ceo_name}
+                  <span className="text-muted-foreground">CEO:</span> {org.ceo_name}
                   {org.ceo_tenure_years != null && (
-                    <span className="text-muted-foreground">
-                      {" "}
-                      · {org.ceo_tenure_years} yr tenure
-                    </span>
+                    <span className="text-muted-foreground"> · {org.ceo_tenure_years} yr tenure</span>
                   )}
                 </p>
               )}
@@ -113,20 +106,16 @@ export default function OrgProfilePage() {
             </div>
           </div>
 
-          {/* Signal factors */}
-          {org.factors && (
-            <p className="mt-4 text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">Signals:</span>{" "}
-              {org.factors}
+          <div className="mt-5 border-t border-border pt-4">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Transition Signals
             </p>
-          )}
+            <SignalPanel factors={org.factors} />
+          </div>
         </div>
 
-        {/* Financials */}
         <section className="mb-8">
-          <h2 className="mb-3 font-serif text-xl text-navy">
-            Financial History
-          </h2>
+          <h2 className="mb-3 font-serif text-xl text-navy">Financial History</h2>
           <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full text-sm">
               <thead>
@@ -143,33 +132,18 @@ export default function OrgProfilePage() {
                 {financials.map((f: any) => {
                   const surplus = f.operating_surplus
                   return (
-                    <tr
-                      key={f.tax_year}
-                      className="border-b border-border/50"
-                    >
+                    <tr key={f.tax_year} className="border-b border-border/50">
                       <td className="px-4 py-2 font-medium">{f.tax_year}</td>
-                      <td className="px-4 py-2 text-right font-mono">
-                        {formatCurrency(f.total_revenue)}
-                      </td>
-                      <td className="px-4 py-2 text-right font-mono">
-                        {formatCurrency(f.total_expenses)}
-                      </td>
-                      <td
-                        className={`px-4 py-2 text-right font-mono ${
-                          surplus != null && surplus < 0
-                            ? "text-score-high"
-                            : ""
-                        }`}
-                      >
+                      <td className="px-4 py-2 text-right font-mono">{formatCurrency(f.total_revenue)}</td>
+                      <td className="px-4 py-2 text-right font-mono">{formatCurrency(f.total_expenses)}</td>
+                      <td className={`px-4 py-2 text-right font-mono ${surplus != null && surplus < 0 ? "text-red-600" : ""}`}>
                         {formatCurrency(surplus)}
                       </td>
-                      <td className="px-4 py-2 text-right font-mono">
-                        {formatCurrency(f.total_assets)}
-                      </td>
+                      <td className="px-4 py-2 text-right font-mono">{formatCurrency(f.total_assets)}</td>
                       <td className="px-4 py-2 text-right font-mono text-muted-foreground">
                         {f.revenue_yoy_pct != null
                           ? `${f.revenue_yoy_pct > 0 ? "+" : ""}${f.revenue_yoy_pct}%`
-                          : "—"}
+                          : "--"}
                       </td>
                     </tr>
                   )
@@ -179,11 +153,8 @@ export default function OrgProfilePage() {
           </div>
         </section>
 
-        {/* Officers */}
         <section>
-          <h2 className="mb-3 font-serif text-xl text-navy">
-            Officers & Key Employees
-          </h2>
+          <h2 className="mb-3 font-serif text-xl text-navy">Officers & Key Employees</h2>
           <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full text-sm">
               <thead>
@@ -197,21 +168,12 @@ export default function OrgProfilePage() {
               </thead>
               <tbody>
                 {officers.map((o: any, i: number) => (
-                  <tr
-                    key={`${o.tax_year}-${o.person_name}-${i}`}
-                    className="border-b border-border/50"
-                  >
+                  <tr key={`${o.tax_year}-${o.person_name}-${i}`} className="border-b border-border/50">
                     <td className="px-4 py-2">{o.tax_year}</td>
                     <td className="px-4 py-2 font-medium">{o.person_name}</td>
-                    <td className="px-4 py-2 text-muted-foreground">
-                      {o.title || "—"}
-                    </td>
-                    <td className="px-4 py-2 text-right font-mono">
-                      {formatCurrency(o.compensation)}
-                    </td>
-                    <td className="px-4 py-2 text-right text-muted-foreground">
-                      {o.hours_per_week ?? "—"}
-                    </td>
+                    <td className="px-4 py-2 text-muted-foreground">{o.title || "--"}</td>
+                    <td className="px-4 py-2 text-right font-mono">{formatCurrency(o.compensation)}</td>
+                    <td className="px-4 py-2 text-right text-muted-foreground">{o.hours_per_week ?? "--"}</td>
                   </tr>
                 ))}
               </tbody>
