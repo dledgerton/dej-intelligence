@@ -51,6 +51,10 @@ export default function MarketScanPage() {
     try {
       const params = buildParams(filters, page, pageSize)
       const res = await fetch(`/api/query/market-scan?${params}`)
+      if (res.status === 402) {
+        window.location.href = '/pricing'
+        return
+      }
       if (!res.ok) throw new Error("Query failed")
       const data = await res.json()
       setResults(data.results ?? [])
