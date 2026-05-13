@@ -6,3 +6,6 @@ data/nccs/_cache/
 data/*.duckdb
 *.duckdb
 *.csv
+.env.local
+.env.local.save
+.next/
