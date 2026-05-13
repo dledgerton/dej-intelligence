@@ -9,3 +9,4 @@ data/*.duckdb
 .env.local
 .env.local.save
 .next/
+.vercel
