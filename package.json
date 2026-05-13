@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "duckdb-async": "^1.4.2",
     "lucide-react": "^0.460.0",
+    "motherduck": "^0.0.1-security.1",
     "next": "^15.0.5",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",

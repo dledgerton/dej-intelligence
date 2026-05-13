@@ -4,6 +4,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import * as duckdb from 'duckdb-async'
 import { z } from 'zod'
+import { getDbPath } from '@/lib/db'
+
 
 function serializeBigInts(obj: any): any {
   return JSON.parse(
@@ -95,8 +97,7 @@ export async function GET(
   }
 
   const ein = einResult.data
-  const dbPath = process.env.DEJ_DB_PATH
-  if (!dbPath) return NextResponse.json({ error: 'DEJ_DB_PATH not set' }, { status: 500 })
+  const dbPath = getDbPath()
 
   const db = await duckdb.Database.create(dbPath, { access_mode: 'READ_ONLY' })
   const conn = await db.connect()

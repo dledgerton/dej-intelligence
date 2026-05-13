@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import * as duckdb from 'duckdb-async'
 import { z } from 'zod'
+import { getDbPath } from '@/lib/db'
 
 const VALID_TIERS = ['imminent', 'high', 'elevated', 'low'] as const
 
@@ -23,8 +24,7 @@ export async function GET(req: NextRequest) {
   }
 
   const { states, score_tiers, ntee_major } = parsed.data
-  const dbPath = process.env.DEJ_DB_PATH
-  if (!dbPath) return NextResponse.json({ error: 'DEJ_DB_PATH not set' }, { status: 500 })
+  const dbPath = getDbPath()
 
   const statePlaceholders = states.map(() => '?').join(', ')
   const tierPlaceholders = score_tiers.map(() => '?').join(', ')

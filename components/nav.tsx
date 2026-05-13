@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
-const links = [
+const links: { href: string; label: string }[] = [
   { href: "/", label: "Market Scan" },
   { href: "/hot-list", label: "Hot List" },
   { href: "/sector-pulse", label: "Sector Pulse" },

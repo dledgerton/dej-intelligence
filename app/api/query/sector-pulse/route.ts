@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import * as duckdb from 'duckdb-async'
 import { z } from 'zod'
+import { getDbPath } from '@/lib/db'
 
 function serializeBigInts(obj: any): any {
   return JSON.parse(
@@ -26,8 +27,7 @@ export async function GET(req: NextRequest) {
   }
 
   const { states, ntee_major, start_year, end_year } = parsed.data
-  const dbPath = process.env.DEJ_DB_PATH
-  if (!dbPath) return NextResponse.json({ error: 'DEJ_DB_PATH not set' }, { status: 500 })
+  const dbPath = getDbPath()
 
   const statePlaceholders = states.map(() => '?').join(', ')
   const nteePlaceholders = ntee_major.map(() => '?').join(', ')

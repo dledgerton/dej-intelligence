@@ -27,7 +27,9 @@ function getPaginationRange(current: number, total: number): (number | "...")[] 
   return pages
 }
 
-export default function MarketScanPage() {
+import { Suspense } from "react"
+
+function MarketScanPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -197,5 +199,12 @@ export default function MarketScanPage() {
         )}
       </main>
     </>
+  )
+}
+export default function Page() {
+  return (
+    <Suspense>
+      <MarketScanPage />
+    </Suspense>
   )
 }

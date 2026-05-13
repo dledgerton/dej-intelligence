@@ -2,6 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import * as duckdb from 'duckdb-async'
 import { z } from 'zod'
+import { getDbPath } from '@/lib/db'
+
 
 const Schema = z.object({
   states: z.string().transform(v => v.split(',').map(s => s.trim().toUpperCase())),
@@ -33,8 +35,7 @@ export async function GET(req: NextRequest) {
   }
 
   const { states, ntee_major, rev_min, rev_max } = parsed.data
-  const dbPath = process.env.DEJ_DB_PATH
-  if (!dbPath) return NextResponse.json({ error: 'DEJ_DB_PATH not set' }, { status: 500 })
+  const dbPath = getDbPath()
 
   const statePlaceholders = states.map(() => '?').join(', ')
   const nteeClause = ntee_major.length > 0
