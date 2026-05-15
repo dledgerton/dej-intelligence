@@ -6,8 +6,31 @@ import { formatCurrency } from "@/lib/utils"
 import { SaveSearchButton } from "@/components/save-search-button"
 
 const STATE_OPTIONS = ["DC", "MD", "VA", "MN", "NY"]
-const NTEE_OPTIONS = [
-  "A","B","C","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","W","X","Y",
+
+const NTEE_OPTIONS: { code: string; label: string }[] = [
+  { code: "A", label: "Arts, Culture & Humanities" },
+  { code: "B", label: "Education" },
+  { code: "C", label: "Environment" },
+  { code: "E", label: "Health Care" },
+  { code: "F", label: "Mental Health & Crisis Intervention" },
+  { code: "G", label: "Disease & Disorder Research" },
+  { code: "H", label: "Medical Research" },
+  { code: "I", label: "Crime & Legal Services" },
+  { code: "J", label: "Employment" },
+  { code: "K", label: "Food, Agriculture & Nutrition" },
+  { code: "L", label: "Housing & Shelter" },
+  { code: "M", label: "Public Safety & Disaster Relief" },
+  { code: "N", label: "Recreation & Sports" },
+  { code: "O", label: "Youth Development" },
+  { code: "P", label: "Human Services" },
+  { code: "Q", label: "International & Foreign Affairs" },
+  { code: "R", label: "Civil Rights & Advocacy" },
+  { code: "S", label: "Community Improvement" },
+  { code: "T", label: "Philanthropy & Voluntarism" },
+  { code: "U", label: "Science & Technology" },
+  { code: "W", label: "Public & Societal Benefit" },
+  { code: "X", label: "Religion" },
+  { code: "Y", label: "Mutual Benefit" },
 ]
 
 export default function SectorPulsePage() {
@@ -51,7 +74,7 @@ export default function SectorPulsePage() {
             <h1 className="font-serif text-3xl text-navy">Sector Pulse</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Year-by-year aggregate trends for a sector in your geography. Use
-              this to pitch sector expertise.
+              this to pitch secor expertise.
             </p>
           </div>
           {searched && years.length > 0 && (
@@ -87,24 +110,42 @@ export default function SectorPulsePage() {
           </div>
           <div>
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Sector (select at least one)
+              Sector (hover for label, select at least one)
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {NTEE_OPTIONS.map((n) => (
+              {NTEE_OPTIONS.map(({ code, label }) => (
                 <button
-                  key={n}
-                  onClick={() => toggle(ntee, n, setNtee)}
+                  key={code}
+                  onClick={() => toggle(ntee, code, setNtee)}
+                  title={`${code} — ${label}`}
                   className={`rounded border px-2 py-0.5 text-xs font-medium transition ${
-                    ntee.includes(n)
+                    ntee.includes(code)
                       ? "border-gold bg-gold/10 text-gold-900"
                       : "border-border text-muted-foreground hover:border-gold/40"
                   }`}
                 >
-                  {n}
+                  {code}
                 </button>
               ))}
-            </div>
+            </d>
           </div>
+
+          {ntee.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {ntee.map((code) => {
+                const match = NTEE_OPTIONS.find((n) => n.code === code)
+                return match ? (
+                  <span
+                    key={code}
+                    className="inline-flex items-center gap-1 rounded bg-gold/10 px-2 py-0.5 text-xs text-navy"
+                  >
+                    <span className="font-semibold">{code}:</span> {match.label}
+                  </span>
+                ) : null
+              })}
+            </div>
+          )}
+
           <button
             onClick={handleSearch}
             disabled={loading || !states.length || !ntee.length}
@@ -115,7 +156,7 @@ export default function SectorPulsePage() {
         </div>
 
         {searched && years.length > 0 && (
-          <div className="overflow-x-auto rounded-lg border border-border">
+        <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b bg-muted/50 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -132,24 +173,14 @@ export default function SectorPulsePage() {
                 {years.map((y: any) => (
                   <tr key={y.year} className="border-b border-border/50">
                     <td className="px-4 py-2 font-medium">{y.year}</td>
-                    <td className="px-4 py-2 text-right">
-                      {y.org_count?.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 text-right font-mono">
-                      {formatCurrency(y.avg_revenue)}
-                    </td>
-                    <td className="px-4 py-2 text-right font-mono">
-                      {formatCurrency(y.median_revenue)}
-                    </td>
+                    <td className="px-4 py-2 text-right">{y.org_count?.toLocaleString()}</td>
+                    <td className="px-4 py-2 text-right font-mono">{formatCurrency(y.avg_revenue)}</td>
+                    <td className="px-4 py-2 text-right font-mono">{formatCurrency(y.median_revenue)}</td>
                     <td className="px-4 py-2 text-right">
                       {y.deficit_pct != null ? `${Number(y.deficit_pct).toFixed(1)}%` : "—"}
                     </td>
-                    <td className="px-4 py-2 text-right text-score-imminent font-semibold">
-                      {y.critical_count}
-                    </td>
-                    <td className="px-4 py-2 text-right text-score-high font-semibold">
-                      {y.high_count}
-                    </td>
+                    <td className="px-4 py-2 text-right text-score-imminent font-semibold">{y.critical_count}</td>
+                    <td className="px-4 py-2 text-right text-score-high font-semibold">{y.high_count}</td>
                   </tr>
                 ))}
               </tbody>
@@ -162,7 +193,6 @@ export default function SectorPulsePage() {
             No data found for this sector/geography combination.
           </p>
         )}
-      </main>
-    </>
+      </main    </>
   )
 }
