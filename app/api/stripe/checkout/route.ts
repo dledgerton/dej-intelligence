@@ -10,6 +10,10 @@ const PRICE_IDS: Record<PlanKey, string> = {
   enterprise: process.env.STRIPE_PRICE_ENTERPRISE_MONTHLY!,
 }
 
+const TRIAL_DAYS: Partial<Record<PlanKey, number>> = {
+  solo: 14,
+}
+
 export async function POST(req: NextRequest) {
   const { userId } = await auth()
   if (!userId) {
@@ -27,21 +31,19 @@ export async function POST(req: NextRequest) {
   }
 
   const email = user.emailAddresses[0]?.emailAddress
+  const trialDays = TRIAL_DAYS[plan]
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     payment_method_types: ['card'],
     customer_email: email,
-    line_items: [
-      {
-        price: PRICE_IDS[plan],
-        quantity: 1,
+    line_items: [{ price: PRICE_IDS[plan], quantity: 1 }],
+    ...(trialDays && {
+      subscription_data: {
+        trial_period_days: trialDays,
       },
-    ],
-    metadata: {
-      userId,
-      plan,
-    },
+    }),
+    metadata: { userId, plan },
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/?upgraded=true`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing`,
   })

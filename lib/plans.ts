@@ -4,6 +4,8 @@ export const PLANS = {
       name: 'Solo',
       price: 97,
       description: 'For independent search consultants',
+      trial: true,
+      trialDays: 14,
       features: [
         'Full market scan access',
         'Hot list — top 100 transition signals',
@@ -16,6 +18,8 @@ export const PLANS = {
       name: 'Firm',
       price: 297,
       description: 'For boutique search firms',
+      trial: false,
+      trialDays: 0,
       features: [
         'Everything in Solo',
         'CSV export up to 5,000 rows',
@@ -28,6 +32,8 @@ export const PLANS = {
       name: 'Enterprise',
       price: 497,
       description: 'For national search practices',
+      trial: false,
+      trialDays: 0,
       features: [
         'Everything in Firm',
         'Unlimited CSV export',
@@ -37,5 +43,5 @@ export const PLANS = {
       ],
     },
   } as const
-  
-  export type PlanKey = keyof typeof PLANS
+
+export type PlanKey = keyof typeof PLANS

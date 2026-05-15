@@ -30,6 +30,12 @@ export default function PricingPage() {
     }
   }
 
+  function getCtaLabel(key: PlanKey, plan: typeof PLANS[PlanKey], isLoading: boolean) {
+    if (isLoading) return "Redirecting..."
+    if (plan.trial) return `Start ${plan.trialDays}-Day Free Trial`
+    return `Start ${plan.name}`
+  }
+
   return (
     <>
       <Nav />
@@ -39,7 +45,10 @@ export default function PricingPage() {
             Intelligence for Nonprofit Search
           </h1>
           <p className="mt-3 text-lg text-muted-foreground">
-            44,000+ scored organizations. Real transition signals. Built for search consultants.
+            237,000+ scored organizations. Real transition signals. Built for search consultants.
+          </p>
+          <p className="mt-2 text-sm text-green-600 font-medium">
+            Try Solo free for 14 days. No charge until your trial ends.
           </p>
         </div>
 
@@ -58,6 +67,14 @@ export default function PricingPage() {
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="rounded-full bg-gold px-3 py-1 text-xs font-semibold text-navy">
                       Most Popular
+                    </span>
+                  </div>
+                )}
+
+                {key === "solo" && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="rounded-full bg-green-600 px-3 py-1 text-xs font-semibold text-white">
+                      14-Day Free Trial
                     </span>
                   </div>
                 )}
@@ -93,18 +110,27 @@ export default function PricingPage() {
                       /month
                     </span>
                   </div>
+                  {plan.trial && (
+                    <p className="mt-1 text-xs text-green-600 font-medium">
+                      Free for {plan.trialDays} days, then ${plan.price}/mo
+                    </p>
+                  )}
                 </div>
 
                 <ul className="mb-8 flex-1 space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2 text-sm">
-                      <span
-                        className={`mt-0.5 text-xs ${
+                      <svg
+                        className={`mt-0.5 h-4 w-4 shrink-0 ${
                           key === "firm" ? "text-gold" : "text-navy"
                         }`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                        viewBox="0 0 24 24"
                       >
-                        ok
-                      </span>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
                       <span
                         className={
                           key === "firm" ? "text-white/90" : "text-foreground"
@@ -120,12 +146,14 @@ export default function PricingPage() {
                   onClick={() => handleCheckout(key)}
                   disabled={loading === key}
                   className={`w-full rounded-lg px-6 py-3 text-sm font-semibold transition disabled:opacity-60 ${
-                    key === "firm"
+                    key === "solo"
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : key === "firm"
                       ? "bg-gold text-navy hover:bg-gold/90"
                       : "bg-navy text-white hover:bg-navy/90"
                   }`}
                 >
-                  {loading === key ? "Redirecting..." : `Start ${plan.name}`}
+                  {getCtaLabel(key, plan, loading === key)}
                 </button>
               </div>
             )
@@ -133,7 +161,7 @@ export default function PricingPage() {
         </div>
 
         <p className="mt-10 text-center text-sm text-muted-foreground">
-          All plans billed monthly. Cancel anytime. Test mode — no real charges.
+          All plans billed monthly. Cancel anytime. Card required to start trial.
         </p>
       </main>
     </>
