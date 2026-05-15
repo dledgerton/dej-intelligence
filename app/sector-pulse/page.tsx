@@ -127,7 +127,7 @@ export default function SectorPulsePage() {
                   {code}
                 </button>
               ))}
-            </d>
+            </div>
           </div>
 
           {ntee.length > 0 && (
@@ -193,6 +193,7 @@ export default function SectorPulsePage() {
             No data found for this sector/geography combination.
           </p>
         )}
-      </main    </>
+      </main>
+    </>
   )
 }
