@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { Nav } from "@/components/nav"
 import { OrgTable } from "@/components/org-table"
 import { FilterBar } from "@/components/filter-bar"
+import { SaveSearchButton } from "@/components/save-search-button"
+import { Suspense } from "react"
 
 const PAGE_SIZE_OPTIONS = [25, 50, 100]
 
@@ -26,8 +28,6 @@ function getPaginationRange(current: number, total: number): (number | "...")[] 
   addPage(total)
   return pages
 }
-
-import { Suspense } from "react"
 
 function MarketScanPage() {
   const router = useRouter()
@@ -109,6 +109,10 @@ function MarketScanPage() {
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1
   const to = Math.min(page * pageSize, total)
 
+  // Save search — only filter params, not pagination
+  const saveParams = { ...filters }
+  const saveLabel = `Market Scan: ${filters.states}${filters.ntee_major ? ` · ${filters.ntee_major}` : ""}`
+
   return (
     <>
       <Nav />
@@ -120,13 +124,23 @@ function MarketScanPage() {
               Scored nonprofit organizations ranked by transition signal strength
             </p>
           </div>
-          <button
-            onClick={handleExport}
-            disabled={exporting || total === 0}
-            className="inline-flex items-center gap-2 rounded-lg border border-gold bg-white px-4 py-2 text-sm font-medium text-navy transition hover:bg-gold/10 disabled:opacity-50"
-          >
-            {exporting ? "Exporting..." : "Export CSV"}
-          </button>
+          <div className="flex items-center gap-3">
+            {!loading && total > 0 && (
+              <SaveSearchButton
+                name={saveLabel}
+                route="/"
+                params={saveParams}
+                resultCount={total}
+              />
+            )}
+            <button
+              onClick={handleExport}
+              disabled={exporting || total === 0}
+              className="inline-flex items-center gap-2 rounded-lg border border-gold bg-white px-4 py-2 text-sm font-medium text-navy transition hover:bg-gold/10 disabled:opacity-50"
+            >
+              {exporting ? "Exporting..." : "Export CSV"}
+            </button>
+          </div>
         </div>
 
         <FilterBar initialValues={filters} onChange={handleFilterChange} />
@@ -134,7 +148,7 @@ function MarketScanPage() {
         <div className="mt-6 mb-3 flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-muted-foreground">
             {loading ? "Loading..." : total === 0 ? "No results" : (
-              <>Showing <span className="font-medium text-foreground">{from}-{to}</span> of{" "}
+              <>Showing <span className="font-medium text-foreground">{from}–{to}</span> of{" "}
               <span className="font-medium text-foreground">{total.toLocaleString()}</span> organizations</>
             )}
           </p>
@@ -201,6 +215,7 @@ function MarketScanPage() {
     </>
   )
 }
+
 export default function Page() {
   return (
     <Suspense>

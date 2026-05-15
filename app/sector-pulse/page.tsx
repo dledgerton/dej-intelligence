@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Nav } from "@/components/nav"
 import { formatCurrency } from "@/lib/utils"
+import { SaveSearchButton } from "@/components/save-search-button"
 
 const STATE_OPTIONS = ["DC", "MD", "VA", "MN", "NY"]
 const NTEE_OPTIONS = [
@@ -38,16 +39,29 @@ export default function SectorPulsePage() {
     }
   }
 
+  const searchParams = { states: states.join(","), ntee_major: ntee.join(",") }
+  const searchName = `Sector Pulse: ${ntee.join(", ")} · ${states.join(", ")}`
+
   return (
     <>
       <Nav />
       <main className="mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-6">
-          <h1 className="font-serif text-3xl text-navy">Sector Pulse</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Year-by-year aggregate trends for a sector in your geography. Use
-            this to pitch sector expertise.
-          </p>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-serif text-3xl text-navy">Sector Pulse</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Year-by-year aggregate trends for a sector in your geography. Use
+              this to pitch sector expertise.
+            </p>
+          </div>
+          {searched && years.length > 0 && (
+            <SaveSearchButton
+              name={searchName}
+              route="/sector-pulse"
+              params={searchParams}
+              resultCount={years.length}
+            />
+          )}
         </div>
 
         <div className="mb-6 space-y-3 rounded-lg border border-border bg-white p-4">
@@ -128,7 +142,7 @@ export default function SectorPulsePage() {
                       {formatCurrency(y.median_revenue)}
                     </td>
                     <td className="px-4 py-2 text-right">
-                        {y.deficit_pct != null ? `${Number(y.deficit_pct).toFixed(1)}%` : "—"}
+                      {y.deficit_pct != null ? `${Number(y.deficit_pct).toFixed(1)}%` : "—"}
                     </td>
                     <td className="px-4 py-2 text-right text-score-imminent font-semibold">
                       {y.critical_count}

@@ -1,9 +1,9 @@
 "use client"
-
 import Link from "next/link"
 import { formatCurrency, formatEIN } from "@/lib/utils"
 import { ScoreBadge } from "./score-badge"
 import { SignalChips } from "./signal-chips"
+import { SaveOrgButton } from "./save-org-button"
 
 type OrgRow = {
   ein: string
@@ -36,7 +36,6 @@ export function OrgTable({
       </p>
     )
   }
-
   return (
     <div className="overflow-x-auto rounded-lg border border-border">
       <table className="w-full text-sm">
@@ -49,6 +48,7 @@ export function OrgTable({
             <th className="px-4 py-3">Score</th>
             <th className="px-4 py-3">CEO</th>
             <th className="px-4 py-3">Signals</th>
+            <th className="px-4 py-3" title="Save to watchlist" />
           </tr>
         </thead>
         <tbody>
@@ -102,6 +102,16 @@ export function OrgTable({
               </td>
               <td className="px-4 py-3 min-w-[200px]">
                 <SignalChips factors={row.factors} max={2} />
+              </td>
+              <td className="px-4 py-3">
+                <SaveOrgButton
+                  ein={row.ein}
+                  name={row.name}
+                  city={row.city ?? ""}
+                  state={row.state ?? ""}
+                  tier={row.tier}
+                  score={row.score}
+                />
               </td>
             </tr>
           ))}

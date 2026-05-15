@@ -10,13 +10,14 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 const isApiRoute = createRouteMatcher(['/api/query/(.*)', '/api/export/(.*)'])
+const isUserApiRoute = createRouteMatcher(['/api/user/(.*)'])
 
 export default clerkMiddleware(async (auth, request) => {
   if (isPublicRoute(request)) return
 
   const { userId } = await auth.protect()
 
-  if (isApiRoute(request) && userId) {
+  if ((isApiRoute(request) || isUserApiRoute(request)) && userId) {
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
     const tier = user.publicMetadata?.tier

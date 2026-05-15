@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -8,6 +7,7 @@ const links: { href: string; label: string }[] = [
   { href: "/", label: "Market Scan" },
   { href: "/hot-list", label: "Hot List" },
   { href: "/sector-pulse", label: "Sector Pulse" },
+  { href: "/dashboard", label: "Dashboard" },
 ]
 
 export function Nav() {

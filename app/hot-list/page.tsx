@@ -1,8 +1,8 @@
 "use client"
-
 import { useState } from "react"
 import { Nav } from "@/components/nav"
 import { OrgTable } from "@/components/org-table"
+import { SaveSearchButton } from "@/components/save-search-button"
 
 const STATE_OPTIONS = ["DC", "MD", "VA", "MN", "NY"]
 
@@ -35,16 +35,29 @@ export default function HotListPage() {
     }
   }
 
+  const searchParams = { states: states.join(","), score_tiers: "imminent,high" }
+  const searchName = `Hot List: ${states.join(", ")}`
+
   return (
     <>
       <Nav />
       <main className="mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-6">
-          <h1 className="font-serif text-3xl text-navy">Hot List</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Organizations with the highest transition signal — imminent and high
-            tiers. These are your BD targets this week.
-          </p>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-serif text-3xl text-navy">Hot List</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Organizations with the highest transition signal — imminent and high
+              tiers. These are your BD targets this week.
+            </p>
+          </div>
+          {searched && (
+            <SaveSearchButton
+              name={searchName}
+              route="/hot-list"
+              params={searchParams}
+              resultCount={results.length}
+            />
+          )}
         </div>
 
         <div className="mb-6 flex flex-wrap items-center gap-3">
@@ -75,7 +88,6 @@ export default function HotListPage() {
             {results.length.toLocaleString()} organizations on the hot list
           </p>
         )}
-
         <OrgTable rows={results} showSignal />
       </main>
     </>
