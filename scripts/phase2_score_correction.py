@@ -1,3 +1,4 @@
+import os
 """
 DEJ Intelligence — Phase 2 Score Correction
 ============================================
@@ -29,7 +30,7 @@ import duckdb
 logging.basicConfig(level=logging.INFO, format="%(levelname)s  %(message)s")
 log = logging.getLogger(__name__)
 
-DB_PATH = "data/dej_intelligence.duckdb"
+DB_PATH = os.environ.get("DEJ_DB_PATH", "data/dej_intelligence.duckdb")
 
 # Score tier thresholds (same as original scoring logic)
 def score_to_tier(score: int) -> str:
