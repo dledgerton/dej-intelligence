@@ -78,7 +78,7 @@ log = logging.getLogger("dej.phase2")
 # ---------------------------------------------------------------------------
 
 IRS_TEOS_BASE   = "https://apps.irs.gov/pub/epostcard/990/xml"
-INDEX_YEARS     = list(range(2017, 2024))   # 2017-2023 inclusive
+INDEX_YEARS     = list(range(2017, 2025))   # 2017-2023 inclusive
 ZIP_MONTHS      = [f"{m:02d}" for m in range(1, 13)]
 ZIP_SUFFIXES    = ["A", "B", "C", "D"]     # probe until 404
 
