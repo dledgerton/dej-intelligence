@@ -15,6 +15,12 @@ export function Nav() {
   const pathname = usePathname()
   const { signOut } = useClerk()
 
+  async function handleManageBilling() {
+    const res = await fetch("/api/stripe/portal", { method: "POST" })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+  }
+
   return (
     <header className="border-b border-border bg-white">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-8 px-6">
@@ -39,12 +45,20 @@ export function Nav() {
             </Link>
           ))}
         </nav>
-        <button
-          onClick={() => signOut({ redirectUrl: "/sign-in" })}
-          className="text-xs text-muted-foreground hover:text-navy transition"
-        >
-          Sign out
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleManageBilling}
+            className="text-xs text-muted-foreground hover:text-navy transition"
+          >
+            Manage subscription
+          </button>
+          <button
+            onClick={() => signOut({ redirectUrl: "/sign-in" })}
+            className="text-xs text-muted-foreground hover:text-navy transition"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
     </header>
   )
