@@ -14,6 +14,58 @@ type OrgData = {
   officers: any[]
 }
 
+function RequestDataButton({ ein, orgName }: { ein: string; orgName: string }) {
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle")
+
+  async function handleRequest() {
+    setStatus("loading")
+    try {
+      const res = await fetch("/api/user/request-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ein, orgName }),
+      })
+      if (!res.ok) throw new Error("Request failed")
+      setStatus("done")
+    } catch {
+      setStatus("error")
+    }
+  }
+
+  if (status === "done") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-lg border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-medium text-navy">
+        <svg className="h-3.5 w-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+        Request received — we'll update this within 24 hours
+      </span>
+    )
+  }
+
+  return (
+    <button
+      onClick={handleRequest}
+      disabled={status === "loading"}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-navy/40 hover:text-navy disabled:opacity-50"
+    >
+      {status === "loading" ? (
+        <>
+          <span className="h-3 w-3 animate-spin rounded-full border border-navy border-t-transparent" />
+          Requesting...
+        </>
+      ) : (
+        <>
+        <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          {status === "error" ? "Try again" : "Request Latest Data"}
+        </>
+      )}
+    </button>
+  )
+}
+
 export default function OrgProfilePage() {
   const { ein } = useParams<{ ein: string }>()
   const [data, setData] = useState<OrgData | null>(null)
@@ -61,6 +113,7 @@ export default function OrgProfilePage() {
   }
 
   const { org, financials, officers } = data
+  const latestFinancialYear = financials.length > 0 ? Math.max(...financials.map((f: any) => f.tax_year)) : null
 
   return (
     <>
@@ -88,7 +141,7 @@ export default function OrgProfilePage() {
             </div>
             <div className="text-right">
               {org.tier && (
-                <ScoreBadge tier={org.tier} score={org.score} className="text-sm" />
+                <ScoreBadge tier={org.tier} score={org.score} className="tet-sm" />
               )}
               {org.ceo_name && (
                 <p className="mt-2 text-sm">
@@ -115,7 +168,17 @@ export default function OrgProfilePage() {
         </div>
 
         <section className="mb-8">
-          <h2 className="mb-3 font-serif text-xl text-navy">Financial History</h2>
+          <div className="mb-3 fle items-center justify-between gap-4">
+            <div>
+              <h2 className="font-serif text-xl text-navy">Financial History</h2>
+              {latestFinancialYear && (
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  IRS 990 data · through {latestFinancialYear} · typically 12-18 months behind filing date
+                </p>
+              )}
+            </div>
+            <RequestDataButton ein={org.ein} orgName={org.name} />
+          </div>
           <div className="overflow-x-auto rounded-lg border border-border">
             <table className="w-full text-sm">
               <thead>
@@ -123,7 +186,7 @@ export default function OrgProfilePage() {
                   <th className="px-4 py-2">Year</th>
                   <th className="px-4 py-2 text-right">Revenue</th>
                   <th className="px-4 py-2 text-right">Expenses</th>
-                  <th className="px-4 py-2 text-right">Surplus</th>
+                  <th className="px-4 py-2 text-right">Splus</th>
                   <th className="px-4 py-2 text-right">Assets</th>
                   <th className="px-4 py-2 text-right">YoY %</th>
                 </tr>
