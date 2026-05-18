@@ -186,7 +186,7 @@ export default function OrgProfilePage() {
                   <th className="px-4 py-2">Year</th>
                   <th className="px-4 py-2 text-right">Revenue</th>
                   <th className="px-4 py-2 text-right">Expenses</th>
-                  <th className="px-4 py-2 text-right">Splus</th>
+                  <th className="px-4 py-2 text-right">Surplus</th>
                   <th className="px-4 py-2 text-right">Assets</th>
                   <th className="px-4 py-2 text-right">YoY %</th>
                 </tr>
