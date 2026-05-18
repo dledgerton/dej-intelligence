@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useClerk } from "@clerk/nextjs"
 import { cn } from "@/lib/utils"
 
 const links: { href: string; label: string }[] = [
@@ -12,6 +13,8 @@ const links: { href: string; label: string }[] = [
 
 export function Nav() {
   const pathname = usePathname()
+  const { signOut } = useClerk()
+
   return (
     <header className="border-b border-border bg-white">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-8 px-6">
@@ -20,7 +23,7 @@ export function Nav() {
             DEJ Intelligence
           </span>
         </Link>
-        <nav className="flex gap-1">
+        <nav className="flex flex-1 gap-1">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -36,6 +39,12 @@ export function Nav() {
             </Link>
           ))}
         </nav>
+        <button
+          onClick={() => signOut({ redirectUrl: "/sign-in" })}
+          className="text-xs text-muted-foreground hover:text-navy transition"
+        >
+          Sign out
+        </button>
       </div>
     </header>
   )
