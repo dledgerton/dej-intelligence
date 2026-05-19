@@ -28,22 +28,6 @@ export async function POST(req: NextRequest) {
       from: process.env.RESEND_FROM_EMAIL!,
       to: 'david@dejsearch.com',
       subject: `Data Refresh Request: ${orgName}`,
-      html: `...`,
-    })
-    
-    console.log('Resend result:', JSON.stringify(result))
-    return NextResponse.json({ ok: true })
-  } catch (err) {
-    console.error('Resend error:', JSON.stringify(err))
-    return NextResponse.json({ error: 'Failed to send request' }, { status: 500 })
-  }
-
-
-  try {
-    await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL!,
-      to: 'david@dejsearch.com',
-      subject: `Data Refresh Request: ${orgName}`,
       html: `
         <p><strong>Data refresh requested</strong></p>
         <p><strong>Organization:</strong> ${orgName}</p>
@@ -54,9 +38,10 @@ export async function POST(req: NextRequest) {
       `,
     })
 
+    console.log('Resend result:', JSON.stringify(result))
     return NextResponse.json({ ok: true })
   } catch (err) {
-    console.error('Resend error:', err)
+    console.error('Resend error:', JSON.stringify(err))
     return NextResponse.json({ error: 'Failed to send request' }, { status: 500 })
   }
 }
