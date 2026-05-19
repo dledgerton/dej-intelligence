@@ -11,9 +11,7 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function POST(req: NextRequest) {
   console.log('RESEND_API_KEY present:', !!process.env.RESEND_API_KEY)
   console.log('RESEND_FROM_EMAIL:', process.env.RESEND_FROM_EMAIL)
-  
-  const { userId } = await auth()
-  ...
+
   const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
