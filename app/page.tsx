@@ -136,7 +136,7 @@ function MarketScanPage() {
             <button
               onClick={handleExport}
               disabled={exporting || total === 0}
-              className="inline-flex items-center gap-2 rounded-lg border border-gold bg-white px-4 py-2 text-sm font-medium text-navy transition hover:bg-gold/10 disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-lg border border-teal bg-white px-4 py-2 text-sm font-medium text-navy transition hover:bg-teal/10 disabled:opacity-50"
             >
               {exporting ? "Exporting..." : "Export CSV"}
             </button>

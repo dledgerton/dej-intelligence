@@ -65,7 +65,7 @@ export function SaveOrgButton({ ein, name, city, state, tier, score, initialSave
         title={saved ? "Remove from watchlist" : "Save to watchlist"}
         className={`rounded p-1 transition ${
           saved
-            ? "text-gold hover:text-gold/70"
+            ? "text-teal hover:text-teal/70"
             : "text-muted-foreground hover:text-navy"
         } disabled:opacity-40`}
       >

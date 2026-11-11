@@ -120,8 +120,8 @@ export default function SectorPulsePage() {
                   title={`${code} — ${label}`}
                   className={`rounded border px-2 py-0.5 text-xs font-medium transition ${
                     ntee.includes(code)
-                      ? "border-gold bg-gold/10 text-gold-900"
-                      : "border-border text-muted-foreground hover:border-gold/40"
+                      ? "border-teal bg-teal/10 text-teal-900"
+                      : "border-border text-muted-foreground hover:border-teal/40"
                   }`}
                 >
                   {code}
@@ -137,7 +137,7 @@ export default function SectorPulsePage() {
                 return match ? (
                   <span
                     key={code}
-                    className="inline-flex items-center gap-1 rounded bg-gold/10 px-2 py-0.5 text-xs text-navy"
+                    className="inline-flex items-center gap-1 rounded bg-teal/10 px-2 py-0.5 text-xs text-navy"
                   >
                     <span className="font-semibold">{code}:</span> {match.label}
                   </span>

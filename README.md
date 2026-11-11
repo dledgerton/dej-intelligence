@@ -1,4 +1,6 @@
-# DEJ Intelligence
+# SectorWindow
+
+(Formerly DEJ Intelligence.)
 
 The intelligence layer for nonprofit executive search. Built by a search consultant, for search consultants.
 

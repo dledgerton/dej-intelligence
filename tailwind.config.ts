@@ -19,20 +19,21 @@ const config: Config = {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        // DEJ Search brand
+        // SectorWindow brand
         navy: {
-          DEFAULT: "#0a1628",
-          50: "#e9eef5",
-          100: "#c8d4e3",
-          500: "#1e3a5f",
-          900: "#0a1628",
+          DEFAULT: "#0A1B33",
+          50: "#F5F7FA",
+          100: "#DDE3EB",
+          500: "#0A1B33",
+          900: "#06111F",
         },
-        gold: {
-          DEFAULT: "#c9a84c",
-          50: "#fdf9ec",
-          100: "#f7eec1",
-          500: "#c9a84c",
-          900: "#7a6321",
+        teal: {
+          DEFAULT: "#17B394",
+          50: "#E6F8F4",
+          100: "#BDEFE4",
+          500: "#17B394",
+          700: "#0E7A66",
+          900: "#0A4A40",
         },
         // Score tier colors
         score: {

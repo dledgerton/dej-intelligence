@@ -11,9 +11,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "DEJ Intelligence",
+  title: "SectorWindow",
   description:
-    "The intelligence layer for nonprofit executive search. Built by a search consultant, for search consultants.",
+    "Know which nonprofits are ready to buy, and who to call. Nonprofit financials, leadership changes and buying signals in one place.",
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{ variables: { colorPrimary: "#0A1B33" } }}>
       <html lang="en">
         <body className={`${inter.variable} ${cormorant.variable} font-sans`}>
           {children}

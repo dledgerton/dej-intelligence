@@ -3,6 +3,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useClerk } from "@clerk/nextjs"
 import { cn } from "@/lib/utils"
+import { Logo } from "@/components/logo"
 
 const links: { href: string; label: string }[] = [
   { href: "/", label: "Market Scan" },
@@ -24,11 +25,7 @@ export function Nav() {
   return (
     <header className="border-b border-border bg-white">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-8 px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-sm font-bold uppercase tracking-[0.15em] text-gold">
-            DEJ Intelligence
-          </span>
-        </Link>
+        <Logo className="h-7 w-auto" />
         <nav className="flex flex-1 gap-1">
           {links.map((l) => (
             <Link

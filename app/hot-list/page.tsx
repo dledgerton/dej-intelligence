@@ -77,7 +77,7 @@ export default function HotListPage() {
           <button
             onClick={handleSearch}
             disabled={loading || states.length === 0}
-            className="ml-2 rounded-md bg-gold px-5 py-1.5 text-sm font-semibold text-navy transition hover:bg-gold/90 disabled:opacity-50"
+            className="ml-2 rounded-md bg-teal px-5 py-1.5 text-sm font-semibold text-navy transition hover:bg-teal/90 disabled:opacity-50"
           >
             {loading ? "Loading…" : "Pull Hot List"}
           </button>

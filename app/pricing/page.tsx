@@ -59,13 +59,13 @@ export default function PricingPage() {
                 key={key}
                 className={`relative flex flex-col rounded-xl border p-8 ${
                   key === "firm"
-                    ? "border-gold bg-navy text-white shadow-xl"
+                    ? "border-teal bg-navy text-white shadow-xl"
                     : "border-border bg-white"
                 }`}
               >
                 {key === "firm" && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="rounded-full bg-gold px-3 py-1 text-xs font-semibold text-navy">
+                    <span className="rounded-full bg-teal px-3 py-1 text-xs font-semibold text-navy">
                       Most Popular
                     </span>
                   </div>
@@ -97,7 +97,7 @@ export default function PricingPage() {
                   <div className="mt-4 flex items-baseline gap-1">
                     <span
                       className={`font-serif text-4xl font-bold ${
-                        key === "firm" ? "text-gold" : "text-navy"
+                        key === "firm" ? "text-teal" : "text-navy"
                       }`}
                     >
                       ${plan.price}
@@ -122,7 +122,7 @@ export default function PricingPage() {
                     <li key={feature} className="flex items-start gap-2 text-sm">
                       <svg
                         className={`mt-0.5 h-4 w-4 shrink-0 ${
-                          key === "firm" ? "text-gold" : "text-navy"
+                          key === "firm" ? "text-teal" : "text-navy"
                         }`}
                         fill="none"
                         stroke="currentColor"
@@ -149,7 +149,7 @@ export default function PricingPage() {
                     key === "solo"
                       ? "bg-green-600 text-white hover:bg-green-700"
                       : key === "firm"
-                      ? "bg-gold text-navy hover:bg-gold/90"
+                      ? "bg-teal text-navy hover:bg-teal/90"
                       : "bg-navy text-white hover:bg-navy/90"
                   }`}
                 >
