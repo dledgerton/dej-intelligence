@@ -13,7 +13,7 @@ export default function SignUpPage() {
             Create your account to start finding nonprofit buying signals
           </p>
         </div>
-        <SignUp />
+        <div className="flex justify-center"><SignUp /></div>
       </div>
     </main>
   )

@@ -13,7 +13,7 @@ export default function SignInPage() {
             Know which nonprofits are ready to buy, and who to call
           </p>
         </div>
-        <SignIn />
+        <div className="flex justify-center"><SignIn /></div>
       </div>
     </main>
   )
