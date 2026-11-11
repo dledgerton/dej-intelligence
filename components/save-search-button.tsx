@@ -47,8 +47,8 @@ export function SaveSearchButton({ name: defaultName, route, params, resultCount
 
   if (status === "saved") {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-lg border border-gold/40 bg-gold/10 px-3 py-1.5 text-sm font-medium text-navy">
-        <svg className="h-3.5 w-3.5 text-gold" fill="currentColor" viewBox="0 0 20 20">
+      <span className="inline-flex items-center gap-1.5 rounded-lg border border-teal/40 bg-teal/10 px-3 py-1.5 text-sm font-medium text-navy">
+        <svg className="h-3.5 w-3.5 text-teal" fill="currentColor" viewBox="0 0 20 20">
           <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
         </svg>
         Saved

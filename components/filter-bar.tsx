@@ -90,8 +90,8 @@ export function FilterBar({
               onClick={() => toggleNtee(n)}
               className={`rounded border px-2 py-0.5 text-xs font-medium transition ${
                 ntee.includes(n)
-                  ? "border-gold bg-gold/10 text-navy"
-                  : "border-border text-muted-foreground hover:border-gold/40"
+                  ? "border-teal bg-teal/10 text-navy"
+                  : "border-border text-muted-foreground hover:border-teal/40"
               }`}
             >
               {n}

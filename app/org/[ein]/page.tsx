@@ -34,8 +34,8 @@ function RequestDataButton({ ein, orgName }: { ein: string; orgName: string }) {
 
   if (status === "done") {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-lg border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-medium text-navy">
-        <svg className="h-3.5 w-3.5 text-gold" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+      <span className="inline-flex items-center gap-1.5 rounded-lg border border-teal/40 bg-teal/10 px-3 py-1.5 text-xs font-medium text-navy">
+        <svg className="h-3.5 w-3.5 text-teal" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
         Request received — we'll update this within 24 hours
