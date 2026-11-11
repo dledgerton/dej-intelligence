@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={{ variables: { colorPrimary: "#0A1B33" } }}>
       <html lang="en">
         <body className={`${inter.variable} ${cormorant.variable} font-sans`}>
           {children}

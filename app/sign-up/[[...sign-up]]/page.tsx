@@ -1,3 +1,4 @@
+import { Logo } from "@/components/logo";
 import { SignUp } from "@clerk/nextjs";
 
 export default function SignUpPage() {
@@ -5,9 +6,11 @@ export default function SignUpPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="font-serif text-3xl text-navy">SectorWindow</h1>
+          <div className="flex justify-center">
+            <Logo className="h-10 w-auto" />
+          </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            Create your account to access nonprofit intelligence
+            Create your account to start finding nonprofit buying signals
           </p>
         </div>
         <SignUp />

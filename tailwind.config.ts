@@ -21,18 +21,18 @@ const config: Config = {
       colors: {
         // SectorWindow brand
         navy: {
-          DEFAULT: "#0F1C2E",
+          DEFAULT: "#0A1B33",
           50: "#F5F7FA",
           100: "#DDE3EB",
-          500: "#13233A",
-          900: "#0F1C2E",
+          500: "#0A1B33",
+          900: "#06111F",
         },
         teal: {
-          DEFAULT: "#1FA38C",
-          50: "#E8F6F3",
-          100: "#C5E8E1",
-          500: "#1FA38C",
-          700: "#0F6F5F",
+          DEFAULT: "#17B394",
+          50: "#E6F8F4",
+          100: "#BDEFE4",
+          500: "#17B394",
+          700: "#0E7A66",
           900: "#0A4A40",
         },
         // Score tier colors
