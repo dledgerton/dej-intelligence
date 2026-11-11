@@ -1,6 +1,6 @@
 {
-  "name": "dej-intelligence",
-  "version": "0.1.0",
+  "name": "sectorwindow",
+  "version": "1.0.0",
   "private": true,
   "description": "The intelligence layer for nonprofit executive search.",
   "scripts": {

@@ -10,7 +10,7 @@ export default function SignInPage() {
             <Logo className="h-10 w-auto" />
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            Know which nonprofits are ready to buy, and who to call
+            Early signals of nonprofit leadership transitions
           </p>
         </div>
         <div className="flex justify-center"><SignIn /></div>
